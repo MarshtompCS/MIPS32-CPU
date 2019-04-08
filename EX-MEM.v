@@ -12,6 +12,8 @@ module EX_MEM(
 	output reg[`RegAddrBus] rd_addr_o,
 	output reg rd_write_o
 );
+
+	//目前没有访存的实现。
 	always @(posedge clk)
 	begin
 		if(rst == 1'b1)

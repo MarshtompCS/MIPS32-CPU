@@ -7,7 +7,10 @@ module IF_ID(
 	input wire rst,
 	input wire clk,
 	output reg[`InstAddrBus] pc_o,
-	output reg[`InstBus] inst_o
+	output reg[`InstBus] inst_o,
+
+
+
 );
 
 	always @(posedge clk)
