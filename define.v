@@ -1,7 +1,7 @@
 //defined by @Marshtomp
 
 `define AluOpBus		7:0  //译码阶段的输出aluop_o的宽度
-`define AluSelBus		2:0  //译码阶段的输出alusel_o的宽度
+`define AluOpTypeBus	2:0  //译码阶段的输出alusel_o的宽度
 
 //指令相关
 `define EXE_ORI			6'b001101  //ori

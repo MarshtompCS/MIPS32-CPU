@@ -5,8 +5,8 @@ module GPR(
 	input wire rst,
 	input wire clk,
 
-	input wire reg1_read_i,
-	input wire reg2_read_i,
+	input wire reg1_en_i,
+	input wire reg2_en_i,
 	input wire[`RegAddrBuss] reg1_addr_i,
 	input wire[`RegAddrBuss] reg2_addr_i,
 
@@ -31,6 +31,8 @@ module GPR(
 	/*
 		reset有效：输出0;
 		读目标是0号寄存器：输出0;
+
+		解决间隔两条的非Load指令RAW相关：
 		读目标和写目标一样，且写使能和读使能有效：输出=写入;
 	*/
 	always @(*)
@@ -39,9 +41,9 @@ module GPR(
 			reg1_data_o <= 32'b0;
 		else if (reg1_addr_i == 5'b0)
 			reg1_data_o <= 32'b0;
-		else if ((reg1_read_i == 1'b1) && (rd_write_i == 1'b1) && (rd_addr_i == reg1_addr_i))
+		else if ((reg1_en_i == 1'b1) && (rd_write_i == 1'b1) && (rd_addr_i == reg1_addr_i))
 			reg1_data_o <= write_data_i;
-		else if(reg1_read_i == 1'b1)
+		else if(reg1_en_i == 1'b1)
 			reg1_data_o <= registers[reg1_addr_i];
 		else
 			reg1_data_o <= 32'b0;
@@ -53,9 +55,9 @@ module GPR(
 			reg2_data_o <= 32'b0;
 		else if (reg2_addr_i == 5'b0)
 			reg2_data_o <= 32'b0;
-		else if ((reg2_read_i == 1'b1) && (rd_write_i == 1'b1) && (rd_addr_i == reg2_addr_i))
+		else if ((reg2_en_i == 1'b1) && (rd_write_i == 1'b1) && (rd_addr_i == reg2_addr_i))
 			reg2_data_o <= write_data_i;
-		else if(reg2_read_i == 1'b1)
+		else if(reg2_en_i == 1'b1)
 			reg2_data_o <= registers[reg2_addr_i];
 		else
 			reg2_data_o <= 32'b0;
