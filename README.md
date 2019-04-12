@@ -1,6 +1,6 @@
 # MIPS32 CPU design and test
 
-Microprocessor without interlocked pipelined stages
+**Microprocessor without interlocked pipelined stages**
 
 I need a Verilog HDL fomatter QAQ
 
