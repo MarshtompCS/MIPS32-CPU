@@ -141,8 +141,8 @@
 `define FromReg		1'b1
 
 `define CtrlBus		7:0
-`define ctrl_Rtype		8'b11110000
-`define ctrl_Itype		8'b00110000
+`define ctrl_Rtype		8'b00001111
+`define ctrl_Itype		8'b00001100
 
 /*control_signal 控制信号
 --------------------------------------------------------------------

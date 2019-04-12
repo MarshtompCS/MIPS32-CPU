@@ -14,7 +14,7 @@ module test_bench;
 	begin
 		rst = 1'b1;
 		#200 rst = 1'b0;
-		#1000 $stop;
+		#120 $stop;
 	end
 
 	cpu  u_cpu (
