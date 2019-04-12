@@ -2,14 +2,31 @@
 
 Microprocessor without interlocked pipelined stages
 
-I need a Verilog HDL fomatter and a snipper QAQ
+I need a Verilog HDL fomatter QAQ
+
+## VScode Extension
+
+VScode Extension: [Verilog HDL support](https://github.com/mshr-h/vscode-verilog-hdl-support)
+
+Verilog HDL support配置说明：
+
++ 下载[ctags](http://bleyer.org/icarus/)，并添加至env
+
+
++ 两种lint配置
+  + xvlog
+    1. 添加Vivado的linter即xvlog.exe到env
+        + "...\Xilinx\Vivado\2018.3\bin\unwrapped\win64.o"
+        + "...\Xilinx\Vivado\2018.3\bin"
+    2. 设置"verilog.linting.linter": "xvlog"
+  + iverilog
+    1. 下载[iverilog](http://iverilog.icarus.com/)并添加至env
+    2. 设置"verilog.linting.linter": "iverilog"
 
 ##  日程计划
 
-+ 4月10日--五级指令流水线 + 数据转发旁路机制
-+ 4月12日--算逻指令实现 + MIPS汇编
-+ 4月14日--跳转、储器读取指令实现 + MIPS汇编
-+ 4月16日--异常相关指令实现
-....
-+ 5月前实现Tomasulo指令调度
++ Load-Store指令
++ 数据转发旁路机制
++ 分支跳转指令
++ Tomasulo指令调度
 

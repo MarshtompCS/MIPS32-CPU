@@ -3,13 +3,11 @@
 //连接IF和ID
 module IF_ID(
 	input wire[`InstAddrBus] pc_i,
-	input wire[`InstBus] inst_i,
+	input wire[31:0] inst_i,
 	input wire rst,
 	input wire clk,
 	output reg[`InstAddrBus] pc_o,
-	output reg[`InstBus] inst_o,
-
-
+	output reg[31:0] inst_o
 
 );
 

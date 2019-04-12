@@ -4,29 +4,34 @@ module EX_MEM(
 	input wire clk,
 	input wire rst,
 
-	input wire[`RegBus] write_data_i,
-	input wire[`RegAddrBus] rd_addr_i,
-	input wire rd_write_i,
+	input wire[31:0] result_i,
+	input wire[4:0] write_reg_addr_i,
+	input wire[`CtrlBus] control_signal_i,
+	input wire[31:0] mem_write_data_i,
 
-	output reg['RegBus] write_data_o,
-	output reg[`RegAddrBus] rd_addr_o,
-	output reg rd_write_o
+
+	output reg[31:0] result_o,
+	output reg[4:0] write_reg_addr_o,
+	output reg[`CtrlBus] control_signal_o,
+	output reg[31:0] mem_write_data_o
 );
 
-	//目前没有访存的实现。
 	always @(posedge clk)
 	begin
 		if(rst == 1'b1)
 		begin
-			write_data_o <= 32'b0;
-			rd_addr_o <= 5'b0;
-			rd_write_o <= 1'b0;
+			result_o <= 32'b0;
+			write_reg_addr_o <= 5'b0;
+			control_signal_o <= `ctrl_Rtype;
+			mem_write_data_o <= 32'b0;
+		
 		end
 		else
 		begin
-			write_data_o <= write_data_i;
-			rd_addr_o <= rd_addr_i;
-			rd_write_o <= rd_write_i;
+			result_o <= result_i;
+			write_reg_addr_o <= write_reg_addr_i;
+			control_signal_o <= control_signal_i;
+			mem_write_data_o <= mem_write_data_i;
 		end
 	end
 	

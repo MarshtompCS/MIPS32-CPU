@@ -1,0 +1,11 @@
+ori
+001101 rs rt imm16
+
+andi
+001100 rs rt imm16
+
+and
+000000 rs rt rd 00000 100100
+
+add
+000000 rs rt rd 00000 100000

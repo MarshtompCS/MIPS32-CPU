@@ -3,28 +3,47 @@
 //通用寄存器 General Purpose Registers
 module GPR(
 	input wire rst,
-	input wire clk,
 
-	input wire reg1_en_i,
-	input wire reg2_en_i,
-	input wire[`RegAddrBuss] reg1_addr_i,
-	input wire[`RegAddrBuss] reg2_addr_i,
+	//从MEM-WB输入的
+	input wire[31:0] write_data,
+	input wire[4:0] write_reg_addr, 
+	input wire reg_write_en,
 
-	input wire rd_write_i,
-	input wire[`RegAddrBuss] rd_addr_i,
-	input wire[`RegBuss] write_data_i,
+	//从ID段输入的
+	input wire[4:0] rs_addr,
+	input wire[4:0] rt_addr,
 
-	output reg[`RegBuss] reg1_data_o,
-	output reg[`RegBuss] reg2_data_o
+	//输出到ID的
+	output reg[`RegBus] rs_data,
+	output reg[`RegBus] rt_data
 );
 	//32个通用寄存器
-	reg[`RegBuss] registers[31:0];
+	reg[`RegBus] registers[31:0];
 
-	//写端口
-	always @(posedge clk)
+	integer i;
+	initial
 	begin
-		if((rst == 1'b0) && (rd_write_i == 1'b1) && (rd_addr_i != 5'b00000))
-			registers[rd_addr_i] <= write_data_i;
+	for(i=0; i<32; i=i+1)
+		registers[i] = 32'b0;
+	end
+	
+	
+	always @(*)
+	begin
+		//写端口
+		if(rst == 1'b0 && reg_write_en == 1'b1 && write_reg_addr != 5'b00000)
+			registers[write_reg_addr] <= write_data;
+		//读端口
+		if(rst == 1'b1)
+		begin
+			rs_data <= 32'b0;
+			rt_data <= 32'b0;
+		end
+		else
+		begin
+			rs_data <= registers[rs_addr];
+			rt_data <= registers[rt_addr];
+		end
 	end
 
 	//两个读端口
@@ -35,33 +54,7 @@ module GPR(
 		解决间隔两条的非Load指令RAW相关：
 		读目标和写目标一样，且写使能和读使能有效：输出=写入;
 	*/
-	always @(*)
-	begin
-		if(rst == 1'b1)
-			reg1_data_o <= 32'b0;
-		else if (reg1_addr_i == 5'b0)
-			reg1_data_o <= 32'b0;
-		else if ((reg1_en_i == 1'b1) && (rd_write_i == 1'b1) && (rd_addr_i == reg1_addr_i))
-			reg1_data_o <= write_data_i;
-		else if(reg1_en_i == 1'b1)
-			reg1_data_o <= registers[reg1_addr_i];
-		else
-			reg1_data_o <= 32'b0;
-	end
 
-	always @(*)
-	begin
-		if(rst == 1'b1)
-			reg2_data_o <= 32'b0;
-		else if (reg2_addr_i == 5'b0)
-			reg2_data_o <= 32'b0;
-		else if ((reg2_en_i == 1'b1) && (rd_write_i == 1'b1) && (rd_addr_i == reg2_addr_i))
-			reg2_data_o <= write_data_i;
-		else if(reg2_en_i == 1'b1)
-			reg2_data_o <= registers[reg2_addr_i];
-		else
-			reg2_data_o <= 32'b0;
-	end
 
 
 endmodule 

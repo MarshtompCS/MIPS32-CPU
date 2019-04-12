@@ -4,40 +4,39 @@ module ID_EX(
 	input wire clk,
 	input wire rst,
 
-	input wire[`AluOpBus] aluop_i,
-	input wire[`AluOpTypeBus] aluoptype_i,
-	input wire[`RegBus] reg1_data_i,
-	input wire[`RegBus] reg2_data_i,
-	input wire[`RegBus] rd_write_i,
-	input wire[`RegAddrBus] rd_addr_i,
-	
-	output reg[`AluOpBus] aluop_o,
-	output reg[`AluOpTypeBus] aluoptype_o,
-	output reg[`RegBus] reg1_data_o,
-	output reg[`RegBus] reg2_data_o,
-	output reg[`RegBus] rd_write_o,
-	output reg[`RegAddrBus] rd_addr_o	
+	input wire[4:0] alu_op_i,
+	input wire[31:0] src_data1_i,
+	input wire[31:0] src_data2_i,
+	input wire[4:0] write_reg_addr_i,
+	input wire[`CtrlBus] control_signal_i,
+	input wire[4:0] mem_write_data_i,
+
+	output reg[4:0] alu_op_o,
+	output reg[`DataBus] src_data1_o,
+	output reg[`DataBus] src_data2_o,
+	output reg[`RegAddrBus] write_reg_addr_o,
+	output reg[`CtrlBus] control_signal_o,
+	output reg[4:0] mem_write_data_o
 );
-	
 	always @(posedge clk)
 	begin
 		if(rst == 1'b1)
 		begin
-			aluop_o <= `EXE_NOP_OP;
-			aluoptype_o <= 'EXE_RES_NOP;
-			reg1_data_o <= 32'b0;
-			reg2_data_o <= 32'b0;
-			rd_write_i <= 1'b0;
-			rd_addr_o <= 5'b0;
+			alu_op_o <= 4'b0;
+			src_data1_o <= 32'b0;
+			src_data2_o <= 32'b0;
+			write_reg_addr_o <= 5'b0;
+			control_signal_o <= 8'b0;
+			mem_write_data_o <= 32'b0;
 		end
 		else
 		begin
-			aluop_o <= aluop_i;
-			aluoptype_o <= aluoptype_i;
-			reg1_data_o <= reg1_data_i;
-			reg2_data_o <= reg2_data_i;
-			rd_write_i <= rd_write_i;
-			rd_addr_o <= rd_addr_i;
+			alu_op_o <= alu_op_i;
+			src_data1_o <= src_data1_i;
+			src_data2_o <= src_data2_i;
+			write_reg_addr_o <= write_reg_addr_i;
+			control_signal_o <= control_signal_i;
+			mem_write_data_o <= mem_write_data_i;
 		end
 	end
 

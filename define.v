@@ -9,7 +9,6 @@
 
 
 //通用寄存器Regfile相关的宏定义
-`define RegAddrBus		4:0		//Regfile地址线宽度
 `define RegBus			31:0	//Regfile数据线宽度
 `define NOPRegAddr		5'b00000
 
@@ -28,12 +27,15 @@
 `define EXE_RES_LOGIC	3'b001
 `define EXE_RES_NOP		3'b000
 
+// 指令存储器
+// 1K*32bit的访存空间，4B = 1Word
+// 32*1024 = 4096Byte = 1024Word
+// log (InstMemWOrdNum  / 4) = 10
+// InstMemAddrBus = 9:0
+`define InstMemByteNum	4096
+`define InstMemAddrBus	11:0	//12位宽，表示0-4095的地址
 
-//指令存储器ROM相关的宏定义
-`define InstBus			31:0    //ROM数据总线宽度
-`define InstMemNum		131071  //ROM的实际大小128KB
-`define InstMemNumLog2	17      //ROM实际使用的地址线宽度
-
+`define DataMemByteNum 4096
 
 //  6-bit	5-bit	5-bit	5-bit	5-bit	6-bit
 // opcode	  rs	  rt	  rd	shamt	funct
@@ -110,3 +112,49 @@
 `define f_XOR		6'b100110
 `define f_NOR		6'b100111
 //SPECIAL2(opcode = 011100) funct解码
+//...
+//...
+
+//alu_OP定义
+/*逻辑运算*/
+`define alu_zero	5'd0
+`define alu_AND		5'd1
+`define alu_OR		5'd2
+`define alu_XOR		5'd3
+`define alu_NOR		5'd4
+`define alu_SLL		5'd5
+`define alu_SRL		5'd6
+`define alu_SRA		5'd7
+/*算术运算*/	
+`define alu_ADD		5'd8
+`define alu_ADDU	5'd9
+`define alu_SUB		5'd10
+`define alu_SUBU	5'd11
+`define alu_MULT	5'd12
+`define alu_MULTU	5'd13
+`define alu_DIV		5'd14
+`define alu_DIVU	5'd15
+
+
+
+`define FromMem		1'b0
+`define FromReg		1'b1
+
+`define CtrlBus		7:0
+`define ctrl_Rtype		8'b11110000
+`define ctrl_Itype		8'b00110000
+
+/*control_signal 控制信号
+--------------------------------------------------------------------
+| 位 |     名称                 功能
+--------------------------------------------------------------------
+| 0  |  write_reg_addr       写入寄存器选择          0:rt     1:rd
+| 1  |  second_scr           ALU第二个操作数来源     0:Imm    1:Reg
+| 2	 |  write_back_scr       写回的数据来源          0:Mem    1:Reg
+| 3  |  write_back_en        寄存器写回使能          0:不写回  1:写回
+--------------------------------------------------------------------
+| 4  |  mem_read_en          存储器读使能            0:禁止读  1:允许读
+| 5  |  mem_write_en         存储器写使能            0:禁止写  1:允许写
+| 6  |  next_pc_src          下一条指令来源         00:PC+4   01:J Reg
+| 7  |                                             10:J Imm  11:Bench
+--------------------------------------------------------------------*/
