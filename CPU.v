@@ -1,4 +1,15 @@
 `include "define.v"
+`include "PC.v"
+`include "IF-ID.v"
+`include "ID.v"
+`include "ID-EX.v"
+`include "ALU.v"
+`include "EX-MEM.v"
+`include "MEM.v"
+`include "MEM-WB.v"
+`include "RegistFile.v"
+`include "Inst_Mem.v"
+`include "Data_Mem.v"
 
 module cpu(
 	input wire clk,
@@ -19,7 +30,7 @@ module cpu(
 	wire[4:0] id_alu_op;//ID:alu_op-->ID_EX:alu_op_i
 	wire[31:0] id_src_data1;//ID:src_data1-->ID_EX:src_data1_i
 	wire[31:0] id_src_data2;//ID:src_data2-->ID_EX:src_data2_i
-	wire[5:0] id_write_reg_addr;//ID:write_reg_addr-->ID_EX:write_reg_addr_i
+	wire[4:0] id_write_reg_addr;//ID:write_reg_addr-->ID_EX:write_reg_addr_i
 	wire[`CtrlBus] id_control_signal;//ID:control_signal-->ID_EX:control_signal_i
 	wire[31:0] id_mem_write_data;//ID:mem_write_data-->ID_EX:mem_write_data_i
 

@@ -1,4 +1,5 @@
 //test_bench.v
+`include "cpu.v"
 module test_bench;
 
 	reg clk;

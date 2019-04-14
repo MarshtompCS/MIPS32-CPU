@@ -2,7 +2,7 @@
 
 module Inst_Mem(
 	input wire rst,
-	input wire[`InstMemAddrBus] pc,
+	input wire[31:0] pc,
 	output reg[31:0] inst
 );
 	reg[31:0] inst_mem [0:`InstMemByteNum-1];

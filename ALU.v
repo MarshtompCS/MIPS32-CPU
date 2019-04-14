@@ -14,6 +14,34 @@ module ALU(
 	output reg[4:0] write_reg_addr_o,
 	output reg[31:0] mem_write_data_o,
 	output reg[`CtrlBus] control_signal_o
+
+	//ALU forwarding / bypass(bp)
+	//自己当前的输出，转发到ID-EX
+	/*也就是result、write_reg_addr_o、control_signal_o*/
+
+/*
+---------------------------------------------------------------------------------------
+  |     |ID|     |ALU|      |MEM       | 敏感信号为*
+PC|IF-ID|  |ID-EX|   |EX-MEM|          | 敏感信号为clk posedge
+---------------------------------------------------------------------------------------
+IF ID EX MEM WB
+   IF ID EX  MEM WB  
+      IF ID  EX  MEM WB
+	     IF  ID  EX  MEM WB
+---------------------------------------------------------------------------------------
+非load数据相关：
+ALU段计算出结果，把当前结果转发到ID，在ID下一个cycle输出给ALU的操作数
+MEM段将当前结果转发到ID流水段，在ID选择下一个cycle输出给ALU的操作数
+在RegistFile中检查要读取的寄存器是不是和写入的寄存器一样，如果一样则将写入数据直接输出
+---------------------------------------------------------------------------------------
+load数据相关：
+在ID-EX段判断是否取到正确的操作数：
+1.正确则正常执行
+2.冲突则发出stall信号
+stall信号由ID发出，PC接收后PC=PC不加4，
+---------------------------------------------------------------------------------------
+*/
+
 );
 	always @(*)
 	begin
@@ -45,5 +73,7 @@ module ALU(
 			mem_write_data_o <= mem_write_data_i;
 		end
 	end
+
+
 
 endmodule

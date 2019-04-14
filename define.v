@@ -135,14 +135,11 @@
 `define alu_DIV		5'd14
 `define alu_DIVU	5'd15
 
-
-
-`define FromMem		1'b0
-`define FromReg		1'b1
+`define NotRegSrc	5'b00000
 
 `define CtrlBus		7:0
-`define ctrl_Rtype		8'b00001111
-`define ctrl_Itype		8'b00001100
+`define ctrl_Rtype		8'b0000_1111
+`define ctrl_Itype		8'b0000_1100
 
 /*control_signal 控制信号
 --------------------------------------------------------------------
